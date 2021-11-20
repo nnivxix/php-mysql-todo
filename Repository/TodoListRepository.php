@@ -38,16 +38,20 @@ namespace Repository {
 
 		function remove(int $number) :bool
 		{
-			if ($number > sizeof($this->todoList)){
-				return false;
-			}
+      $sql = "SELECT id FROM todolist WHERE id = ?";
+      $statement = $this->connection->prepare($sql);
+      $statement->execute([$number]);
 
-			for ($i = $number; $i < sizeof($this->todoList); $i++) {
-				$this->todoList[$i] = $this->todoList[$i + 1];
-			}
+      if ($statement->fetch()) {
+        $sql = "DELETE FROM todolist WHERE id = ?";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute([$number]);
+        return true;
+      } else {
+        // code...
+        return false;
+      }
 
-			unset($this->todoList[sizeof($this->todoList)]);
-				return true;
 		}
 
 		function findAll(): Array
