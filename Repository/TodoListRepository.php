@@ -17,12 +17,22 @@ namespace Repository {
 	//implement the interface
 	class todoListRepositoryImpl implements TodoRepository
 	{
+		public \PDO $connection;
 		public array $todoList = array();
+
+		public function __construct (\PDO $connection)
+		{
+			$this->connection = $connection ;
+		}
 
 		function save(todoList $todoList) :void
 		{
-			$number = sizeof($this->todoList) + 1;
-			$this->todoList[$number] = $todoList;
+			// $number = sizeof($this->todoList) + 1;
+			// $this->todoList[$number] = $todoList;
+
+			$sql = "INSERT INTO todolist(todo) VALUES (?)";
+			$statement = $this->connection->prepare($sql);
+			$statement->execute([$todoList->getTodo()]);
 
 		}
 
