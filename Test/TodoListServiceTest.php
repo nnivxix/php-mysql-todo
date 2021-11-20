@@ -9,10 +9,15 @@ use Service\TodoListServiceImpl;
 use Repository\TodoListRepositoryImpl;
 
 function testShowTodoList() {
-	$todolistRepository = new TodoListRepositoryImpl();
-	$todolistRepository->todoList[1] = new TodoList("Basic PHP");
-	$todolistRepository->todoList[2] = new TodoList("OOP PHP");
-	$todolistRepository->todoList[3] = new TodoList("PHP todolist");
+  $connection = \Config\Database::getConnection();
+	$todolistRepository = new TodoListRepositoryImpl($connection);
+  $todolistService = new TodoListServiceImpl($todolistRepository);
+	// $todolistRepository->todoList[1] = new TodoList("Basic PHP");
+	// $todolistRepository->todoList[2] = new TodoList("OOP PHP");
+	// $todolistRepository->todoList[3] = new TodoList("PHP todolist");
+  $todolistService->addTodoList("Basic PHP");
+  $todolistService->addTodoList("OOP PHP");
+  $todolistService->addTodoList("PHP todolist");
 	$todolistService = new TodoListServiceImpl($todolistRepository);
 
 	$todolistService->showTodoList();
@@ -25,9 +30,7 @@ function testAddTodolist(): void
 	$todolistRepository = new TodoListRepositoryImpl($connection);
 	$todolistService = new TodoListServiceImpl($todolistRepository);
 
-	$todolistService->addTodoList("Basic PHP");
-	$todolistService->addTodoList("OOP PHP");
-	$todolistService->addTodoList("PHP todolist");
+
 
 	// $todolistService->showTodoList();
 }
@@ -43,4 +46,4 @@ function testRemoveTodolist()
 
 }
 
-testRemoveTodolist();
+testShowTodoList();

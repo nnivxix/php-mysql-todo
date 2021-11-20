@@ -26,7 +26,7 @@ namespace Service {
 			echo "Todo List". PHP_EOL;
 			$todolist = $this->todoRepository->findAll();
 			foreach ($todolist as $number => $value) {
-				echo "$number. ". $value->getTodo() .PHP_EOL;
+				echo $value->getId(). ".". $value->getTodo() .PHP_EOL;
 			}
 		}
 		function addTodoList(string $todo) :void
